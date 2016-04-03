@@ -1,0 +1,8 @@
+﻿@helper PostImg(SI.Models.Post post) {
+    <img src="@("/Img/PostImages/" + post.ImgPath)" alt="@post.Title" onerror="this.src='/Img/404 MonkeyFace.png'" class="postImg" />
+}
+
+@helper PostImgSmall(SI.Models.Post post)
+{
+    <img src="@("/Img/PostImages/" + post.ImgPath)" alt="@post.Title" onerror="this.src='/Img/404 MonkeyFace.png'" class="postImgSmall" />
+}

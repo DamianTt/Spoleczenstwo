@@ -22,11 +22,12 @@
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
 
-            @*@Html.LabelFor(model => model.ImgPath, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ImgPath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ImgPath, new { htmlAttributes = new { @class = "form-control" } })*@
                 <input id="ImgPath" title="Upload an image" type="file" name="file" />
                 @Html.ValidationMessageFor(model => model.ImgPath, "", new { @class = "text-danger" })
-            </div>*@
+            </div>
 
         </div>
 

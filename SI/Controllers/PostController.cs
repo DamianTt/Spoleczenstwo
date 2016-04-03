@@ -48,15 +48,15 @@ namespace SI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && file != null)
             {
-                //if (file != null)
-                //{
-                //    file.SaveAs()
-                //}
+                file.SaveAs(HttpContext.Server.MapPath("~/Img/PostImages/") + file.FileName);
 
+                post.ImgPath = file.FileName;
                 db.Posts.Add(post);
                 db.SaveChanges();
+
+
                 return RedirectToAction("Index", "Home");
             }
 

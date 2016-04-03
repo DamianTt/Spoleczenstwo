@@ -1,15 +1,20 @@
 ﻿@model SI.Models.Post
 
+@{
+    ViewBag.Title = Model.Title;
+}
 
 <div>
-    <h4>@Html.DisplayFor(model => model.Title)</h4>
-    <p>// Wyobraź sobie że to jest obrazek</p>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index", "Home")
-    </p>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    @Helper.PostImg(Model)
+    <div>
+        @Html.ActionLink("Edit", "Edit", "Post", new { id = Model.Id }, null) |
+        @Html.ActionLink("Delete", "Delete", "Post", new { id = Model.Id }, null)
+    </div>
     <hr />
 </div>
+
+<h3>Comments</h3>
 
 @Html.Partial("_NewComment", new SI.Models.Comment(Model.Id))
 
