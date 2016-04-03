@@ -1,0 +1,28 @@
+﻿@model SI.Models.Post
+
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Title)</h4>
+    // Wyobraź sobie że to jest obrazek
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index", "Home")
+    </p>
+    <hr />
+</div>
+
+@*@Html.Partial("_NewComment", new );*@
+
+@*@using (Html.BeginForm("Create", "Comment"))
+{
+    @Html.AntiForgeryToken()
+
+    <input class="form-control text-box single-line" id="Body" name="Body" type="text" placeholder="Add comment" style="float:left;">
+    
+    <input type="submit" value="Post" class="btn btn-default" />
+}*@
+
+@foreach (var com in Model.Comments)
+{
+    <div>@com.Body</div>
+}
