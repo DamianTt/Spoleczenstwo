@@ -9,6 +9,14 @@ namespace SI.Models
     {
         public int Id { get; set; }
         public string Body { get; set; }
+        public int PostId { get; set; }
+
+        public Comment() { }
+
+        public Comment(int PostId)
+        {
+            this.PostId = PostId;
+        }
 
     }
 }

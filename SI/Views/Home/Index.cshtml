@@ -4,6 +4,7 @@
 {
     <div>
         <h4>@Html.ActionLink(item.Title, "Details", "Post", new { id = item.Id }, null)</h4>
+
         @Html.ActionLink("Edit", "Edit", "Post", new { id = item.Id }, null) |
         @Html.ActionLink("Delete", "Delete", "Post", new { id = item.Id }, null)
         <hr />

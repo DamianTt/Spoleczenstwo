@@ -46,13 +46,13 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Body")] Comment comment)
+        public ActionResult Create([Bind(Include = "Body,PostId")] Comment comment)
         {
             if (ModelState.IsValid)
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Post");
+                return RedirectToAction("Details", "Post", new { id = comment.PostId });
             }
 
             return View(comment);

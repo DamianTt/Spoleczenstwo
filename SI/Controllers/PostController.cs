@@ -46,10 +46,15 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title")] Post post)
+        public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                //if (file != null)
+                //{
+                //    file.SaveAs()
+                //}
+
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
