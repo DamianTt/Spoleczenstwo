@@ -9,7 +9,7 @@ namespace SI.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string ImgPath { get; set; }
+        public string ImgName { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

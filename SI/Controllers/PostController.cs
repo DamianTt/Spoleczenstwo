@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SI.Models;
+using System.Configuration;
 
 namespace SI.Controllers
 {
@@ -50,9 +51,17 @@ namespace SI.Controllers
         {
             if (ModelState.IsValid && file != null)
             {
-                file.SaveAs(HttpContext.Server.MapPath("~/Img/PostImages/") + file.FileName);
+                int id = 0;
+                try {
+                    Post lastPost = db.Posts.OrderBy(p => p.Id).AsEnumerable().Last();
+                    id = lastPost.Id + 1;
+                } catch (InvalidOperationException) { }
 
-                post.ImgPath = file.FileName;
+                string fileName = id.ToString() + "." + file.FileName.Split('.').Last();
+
+                file.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + fileName);
+
+                post.ImgName = fileName;
                 db.Posts.Add(post);
                 db.SaveChanges();
 
@@ -83,7 +92,7 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title")] Post post)
+        public ActionResult Edit([Bind(Include = "Id, Title, ImgName")] Post post)
         {
             if (ModelState.IsValid)
             {
@@ -115,6 +124,8 @@ namespace SI.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Post post = db.Posts.Find(id);
+            string filePath = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + post.ImgName;
+            System.IO.File.Delete(filePath);
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index", "Home");

@@ -8,6 +8,7 @@
     padding-left: 15px;
     padding-right: 15px;
     margin-top: 20px;
+    max-width: 600px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -33,11 +34,15 @@ textarea {
 }
 
 .postImg {
-    max-width: 700px;
+    max-width: 100%;
     height: auto;
 }
 
 .postImgSmall {
     max-width: 300px;
     height: auto;
+}
+
+input[type="file"] {
+    padding: 6px 0px;
 }

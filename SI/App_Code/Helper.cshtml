@@ -1,8 +1,16 @@
 ﻿@helper PostImg(SI.Models.Post post) {
-    <img src="@("/Img/PostImages/" + post.ImgPath)" alt="@post.Title" onerror="this.src='/Img/404 MonkeyFace.png'" class="postImg" />
+    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + post.ImgName)" 
+         alt="@post.Title" 
+         onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
+         class="postImg" />
 }
 
 @helper PostImgSmall(SI.Models.Post post)
 {
-    <img src="@("/Img/PostImages/" + post.ImgPath)" alt="@post.Title" onerror="this.src='/Img/404 MonkeyFace.png'" class="postImgSmall" />
+    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + post.ImgName)" 
+         alt="@post.Title" 
+         onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
+         class="postImgSmall" />
 }
+
+@SI.Properties.Settings.Default.PostImgPath
