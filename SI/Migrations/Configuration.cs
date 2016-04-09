@@ -10,7 +10,6 @@ namespace SI.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "SI.Models.SIDb";
         }
 
         protected override void Seed(SI.Models.SIDb context)
