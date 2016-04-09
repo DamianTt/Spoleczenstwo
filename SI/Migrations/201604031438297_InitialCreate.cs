@@ -12,19 +12,19 @@ namespace SI.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Body = c.String(),
-                        Post_Id = c.Int(),
+                        Body = c.String(nullable: false),
+                        PostId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Posts", t => t.Post_Id)
-                .Index(t => t.Post_Id);
+                .ForeignKey("dbo.Posts", t => t.PostId)
+                .Index(t => t.PostId);
             
             CreateTable(
                 "dbo.Posts",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
+                        Title = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -32,8 +32,8 @@ namespace SI.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Comments", "Post_Id", "dbo.Posts");
-            DropIndex("dbo.Comments", new[] { "Post_Id" });
+            DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
+            DropIndex("dbo.Comments", new[] { "PostId" });
             DropTable("dbo.Posts");
             DropTable("dbo.Comments");
         }

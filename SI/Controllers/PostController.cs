@@ -49,26 +49,32 @@ namespace SI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid && file != null)
+            if (file != null)
             {
-                int id = 0;
-                try {
-                    Post lastPost = db.Posts.OrderBy(p => p.Id).AsEnumerable().Last();
-                    id = lastPost.Id + 1;
-                } catch (InvalidOperationException) { }
+                post.ImgName = file.ContentType;
+                ModelState.Clear();
+                if (TryValidateModel(post))
+                {
+                    int id = 0;
+                    try
+                    {
+                        Post lastPost = db.Posts.OrderBy(p => p.Id).AsEnumerable().Last();
+                        id = lastPost.Id + 1;
+                    }
+                    catch (InvalidOperationException) { }
 
-                string fileName = id.ToString() + "." + file.FileName.Split('.').Last();
+                    string fileName = id.ToString() + "." + file.FileName.Split('.').Last();
 
-                file.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + fileName);
+                    file.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + fileName);
 
-                post.ImgName = fileName;
-                db.Posts.Add(post);
-                db.SaveChanges();
+                    post.ImgName = fileName;
+                    db.Posts.Add(post);
+                    db.SaveChanges();
 
-
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
+            
             return View(post);
         }
 
