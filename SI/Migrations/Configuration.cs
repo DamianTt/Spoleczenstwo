@@ -9,7 +9,7 @@ namespace SI.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(SI.Models.SIDb context)

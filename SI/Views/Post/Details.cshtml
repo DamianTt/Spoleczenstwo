@@ -9,7 +9,8 @@
     @Helper.PostImg(Model)
     <div>
         @Html.ActionLink("Edit", "Edit", "Post", new { id = Model.Id }, null) |
-        @Html.ActionLink("Delete", "Delete", "Post", new { id = Model.Id }, null)
+        @Html.ActionLink("Delete", "Delete", "Post", new { id = Model.Id }, null) |
+        @Model.Author.Name;
     </div>
     <hr />
 </div>

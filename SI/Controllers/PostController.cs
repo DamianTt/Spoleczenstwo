@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SI.Models;
 using System.Configuration;
+using Microsoft.AspNet.Identity;
 
 namespace SI.Controllers
 {
@@ -37,6 +38,7 @@ namespace SI.Controllers
         }
 
         // GET: Post/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -47,11 +49,13 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
         {
             if (file != null)
             {
                 post.ImgName = file.ContentType;
+                post.AuthorId = User.Identity.GetUserId();
                 ModelState.Clear();
                 if (TryValidateModel(post))
                 {
