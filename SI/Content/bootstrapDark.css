@@ -92,7 +92,6 @@ hr {
   height: 0;
   -moz-box-sizing: content-box;
        box-sizing: content-box;
-       border-top-color: #444444;
 }
 
 mark {
@@ -320,7 +319,7 @@ body {
 }
 
 .dark {
-  background-color: #1C1C1C;
+  background-color: #2C2C2C;
   color: #ffffff;
 }
 
@@ -392,7 +391,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #444444;
+  border-top: 1px solid #eeeeee;
 }
 
 .sr-only {
@@ -6820,7 +6819,3 @@ td.visible-print {
     display: none !important;
   }
 }
-.container.body-content > div {
-    color: white;
-}
-

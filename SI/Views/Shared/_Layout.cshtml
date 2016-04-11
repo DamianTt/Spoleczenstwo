@@ -1,4 +1,23 @@
-﻿<!DOCTYPE html>
+﻿<%
+dim numvisits
+response.cookies("NumVisits").Expires=date+365
+numvisits=request.cookies("NumVisits")
+
+if numvisits="" then
+   response.cookies("NumVisits")=1
+   response.write("Welcome! This is the first time you are visiting this Web page.")
+else
+   response.cookies("NumVisits")=numvisits+1
+   response.write("You have visited this ")
+   response.write("Web page " & numvisits)
+   if numvisits=1 then
+     response.write " time before!"
+   else
+     response.write " times before!"
+   end if
+end if
+%>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -12,6 +31,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -38,12 +58,44 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Dziki zgon programmers </p>
+                <div>
+                    Ciemny skin - omega version
+                    <input type="checkbox" id="cbSkin" onclick='handleClickSkin(this);' class="toggle"/>
+                </div>
+                <div class="switch-button-button">
+                    <label for='great'>Ciemny skin - upsilon version</label>
+                    <input type="checkbox" name="great" id="great" />
+                </div>
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        console.cookie = "layout=dark";
+        console.log(document.cookie);
+       // $('#great').switchButton();
+        function handleClickSkin(cbSkin) {
+            //$('body').attr('class') === null ? $('body').attr('class', 'dark') : $('body').attr('class', '');
+            //$('#great').switchButton();
+            if (document.getElementById("cbSkin").checked === true) {
+                // document.body.style.backgroundColor = "#2C2C2C";
+                $('body').attr('class', 'dark');
+                $('.title a').css('color', 'white');
+                //$("").switchClass("", "dark", 1000);
+            }
+               //#444444
+            else {
+                //document.body.style.backgroundColor = "#ffffff";
+                $('body').attr('class', '');
+                $('.title a').css('color', '');
+
+            }
+        }
+    </script>
+
 </body>
 </html>

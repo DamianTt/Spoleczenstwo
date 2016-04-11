@@ -32,10 +32,15 @@ textarea {
 .title a {
     color: black;
 }
+.dark title {
+    color: white;
+}
 
 .postImg {
-    max-width: 100%;
-    height: auto;
+    max-width: 95%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .postImgSmall {
@@ -44,5 +49,5 @@ textarea {
 }
 
 input[type="file"] {
-    padding: 6px 0px;
+    padding: 4px 0px;
 }
