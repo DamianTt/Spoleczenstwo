@@ -50,17 +50,22 @@ namespace SI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "Title, File, NSFW")] NewPostViewModel newPost)//, HttpPostedFileBase file)
         {
-            if (file != null)
+            //if (file == null)
+            //    ModelState.AddModelError(string.Empty, "Image path can't be empty");
+            //else
             {
-                post.ImgName = file.ContentType;
-                post.AuthorId = User.Identity.GetUserId();
-                post.Date = DateTime.Now;
-
-                ModelState.Clear();
-                if (TryValidateModel(post))
+                if (ModelState.IsValid)
                 {
+                    Post post = new Post
+                    {
+                        Title = newPost.Title,
+                        NSFW = newPost.NSFW,
+                        AuthorId = User.Identity.GetUserId(),
+                        Date = DateTime.Now
+                    };
+
                     int id = 0;
                     try
                     {
@@ -68,20 +73,19 @@ namespace SI.Controllers
                         id = lastPost.Id + 1;
                     }
                     catch (InvalidOperationException) { }
+                    
+                    post.ImgName = id.ToString() + "." + newPost.File.FileName.Split('.').Last();
 
-                    string fileName = id.ToString() + "." + file.FileName.Split('.').Last();
+                    newPost.File.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + post.ImgName);
 
-                    file.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + fileName);
-
-                    post.ImgName = fileName;
                     db.Posts.Add(post);
                     db.SaveChanges();
 
                     return RedirectToAction("Index", "Home");
                 }
             }
-            
-            return View(post);
+
+            return View(newPost);
         }
 
         // GET: Post/Edit/5

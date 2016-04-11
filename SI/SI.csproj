@@ -217,6 +217,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Data_Models\Post.cs" />
+    <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\SIDb.cs" />
     <Compile Include="Models\Data_Models\Subcomment.cs" />
     <Compile Include="Models\Data_Models\User.cs" />
