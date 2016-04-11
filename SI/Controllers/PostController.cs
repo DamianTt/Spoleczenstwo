@@ -56,6 +56,8 @@ namespace SI.Controllers
             {
                 post.ImgName = file.ContentType;
                 post.AuthorId = User.Identity.GetUserId();
+                post.Date = DateTime.Now;
+
                 ModelState.Clear();
                 if (TryValidateModel(post))
                 {

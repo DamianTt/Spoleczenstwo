@@ -48,7 +48,10 @@ namespace SI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Body,PostId")] Comment comment)
         {
-            if (ModelState.IsValid)
+            comment.Date = DateTime.Now;
+
+            ModelState.Clear();
+            if (TryValidateModel(comment))
             {
                 db.Comments.Add(comment);
                 db.SaveChanges();
