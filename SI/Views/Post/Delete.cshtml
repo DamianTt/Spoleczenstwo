@@ -6,7 +6,7 @@
 <div>
     <hr />
     <h4>@Model.Title</h4>
-    @Helper.PostImgSmall(Model)
+    @Helper.PostImgSmall(Model.ImgName)
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 

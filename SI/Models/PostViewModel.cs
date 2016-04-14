@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SI.Models
 {
@@ -17,8 +18,31 @@ namespace SI.Models
 
         public bool NSFW { get; set; }
 
-            
 
-        public virtual ICollection<Section> Sections { get; set; }
+
+        public SelectList AllSections { get; set; }
+
+        [Display(Name = "Tags")]
+        public ICollection<int> SelectedSections { get; set; }
+    }
+
+    public class EditPostViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(140)]
+        public string Title { get; set; }
+
+        public string ImgName { get; set; }
+
+        public bool NSFW { get; set; }
+
+
+
+        public SelectList AllSections { get; set; }
+
+        [Display(Name = "Tags")]
+        public ICollection<int> SelectedSections { get; set; }
     }
 }

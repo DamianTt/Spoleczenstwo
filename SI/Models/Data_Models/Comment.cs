@@ -36,7 +36,7 @@ namespace SI.Models
 
 
         public Comment() { }
-
+        
         public Comment(int PostId)
         {
             this.PostId = PostId;

@@ -46,3 +46,7 @@ textarea {
 input[type="file"] {
     padding: 6px 0px;
 }
+
+.form-checkbox {
+    padding-top: 6px;
+}
