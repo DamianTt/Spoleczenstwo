@@ -197,8 +197,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Global.asax.cs">
@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201604111301522_initial.cs" />
     <Compile Include="Migrations\201604111301522_initial.Designer.cs">
       <DependentUpon>201604111301522_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604151227101_base64Id.cs" />
+    <Compile Include="Migrations\201604151227101_base64Id.Designer.cs">
+      <DependentUpon>201604151227101_base64Id.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -274,9 +278,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -323,6 +324,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604111301522_initial.resx">
       <DependentUpon>201604111301522_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604151227101_base64Id.resx">
+      <DependentUpon>201604151227101_base64Id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

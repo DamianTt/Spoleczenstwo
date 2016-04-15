@@ -23,7 +23,7 @@ namespace SI.Models
         [ForeignKey("CommentId")]
         public virtual Comment Comment { get; set; }
         [Key, Column(Order = 1)]
-        public int CommentId { get; set; }
+        public long CommentId { get; set; }
 
     }
 }

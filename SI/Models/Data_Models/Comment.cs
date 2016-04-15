@@ -9,7 +9,7 @@ namespace SI.Models
 {
     public class Comment
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [StringLength(1000)]
@@ -25,7 +25,7 @@ namespace SI.Models
 
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }
-        public int PostId { get; set; }
+        public string PostId { get; set; }
 
 
 
@@ -37,7 +37,7 @@ namespace SI.Models
 
         public Comment() { }
         
-        public Comment(int PostId)
+        public Comment(string PostId)
         {
             this.PostId = PostId;
         }

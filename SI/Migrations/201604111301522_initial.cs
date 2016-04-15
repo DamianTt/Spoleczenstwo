@@ -109,7 +109,7 @@ namespace SI.Migrations
                     })
                 .PrimaryKey(t => new { t.UserId, t.CommentId })
                 .ForeignKey("dbo.Comments", t => t.CommentId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.CommentId);
             
@@ -148,7 +148,7 @@ namespace SI.Migrations
                     })
                 .PrimaryKey(t => new { t.UserId, t.PostId })
                 .ForeignKey("dbo.Posts", t => t.PostId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.PostId);
             
@@ -179,7 +179,7 @@ namespace SI.Migrations
                     })
                 .PrimaryKey(t => new { t.UserId, t.SubcommentId })
                 .ForeignKey("dbo.Subcomments", t => t.SubcommentId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId)
                 .Index(t => t.SubcommentId);
             

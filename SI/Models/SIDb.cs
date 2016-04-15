@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -14,9 +16,20 @@ namespace SI.Models
         public DbSet<Section> Sections { get; set; }
 
 
-        public SIDb() : base("name=DefaultConnection")
-        {
 
+        public SIDb() : base("name=DefaultConnection") { }
+
+        public bool TrySaveChanges()
+        {
+            try
+            {
+                SaveChanges();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -24,6 +37,10 @@ namespace SI.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().ToTable("dbo.AspNetUsers");
+
+            modelBuilder.Entity<Post>()
+                .Property(p => p.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
 
     }

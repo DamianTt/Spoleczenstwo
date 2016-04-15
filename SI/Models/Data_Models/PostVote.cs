@@ -23,6 +23,6 @@ namespace SI.Models
         [ForeignKey("PostId")]
         public virtual Post Post { get; set; }
         [Key, Column(Order = 1)]
-        public int PostId { get; set; }
+        public string PostId { get; set; }
     }
 }
