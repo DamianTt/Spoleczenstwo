@@ -1,34 +1,19 @@
-﻿<%
-dim numvisits
-response.cookies("NumVisits").Expires=date+365
-numvisits=request.cookies("NumVisits")
-
-if numvisits="" then
-   response.cookies("NumVisits")=1
-   response.write("Welcome! This is the first time you are visiting this Web page.")
-else
-   response.cookies("NumVisits")=numvisits+1
-   response.write("You have visited this ")
-   response.write("Web page " & numvisits)
-   if numvisits=1 then
-     response.write " time before!"
-   else
-     response.write " times before!"
-   end if
-end if
-%>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        @(ViewBag.Title != null ? ViewBag.Title + " - " : "")
-        BengBeng
+        @(ViewBag.Title != null ? ViewBag.Title + " - " : "")BengBeng
     </title>
-    
-    @Styles.Render("~/Content/css")
+
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/jqueryuicss")
+    @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" title=""dark"" />", "~/Content/cssThemeDark")
+    @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" title=""light"" />", "~/Content/cssThemeLight")
+    @Styles.Render("~/Content/cssDark")
+    @Styles.Render("~/Content/css")
+
 
 </head>
 
@@ -59,42 +44,95 @@ end if
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Dziki zgon programmers </p>
-                <div>
-                    Ciemny skin - omega version
-                    <input type="checkbox" id="cbSkin" onclick='handleClickSkin(this);' class="toggle"/>
+                <div class="slider demo" id="slider-2">
+                    <input type="checkbox" id="jebanyklikacz" name="cbSkin" value="" onclick='handleCbChange(this);' />
                 </div>
-                <div class="switch-button-button">
-                    <label for='great'>Ciemny skin - upsilon version</label>
-                    <input type="checkbox" name="great" id="great" />
-                </div>
+
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/scriptsDark")
     @RenderSection("scripts", required: false)
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script>
-        console.cookie = "layout=dark";
-        console.log(document.cookie);
-       // $('#great').switchButton();
-        function handleClickSkin(cbSkin) {
-            //$('body').attr('class') === null ? $('body').attr('class', 'dark') : $('body').attr('class', '');
-            //$('#great').switchButton();
-            if (document.getElementById("cbSkin").checked === true) {
-                // document.body.style.backgroundColor = "#2C2C2C";
-                $('body').attr('class', 'dark');
-                $('.title a').css('color', 'white');
-                //$("").switchClass("", "dark", 1000);
-            }
-               //#444444
-            else {
-                //document.body.style.backgroundColor = "#ffffff";
-                $('body').attr('class', '');
-                $('.title a').css('color', '');
 
+        $("#slider-2.demo input").switchButton({
+            on_label: 'Night',
+            off_label: 'Light',
+            width: 40,
+            height: 15,
+            button_width: 16
+        });
+        setStyleFromCookie();
+       
+        function switch_style(css_title) {
+            var i, link_tag;
+            for (i = 0, link_tag = document.getElementsByTagName("link") ;
+              i < link_tag.length ; i++) {
+                if ((link_tag[i].rel.indexOf("stylesheet") != -1) &&
+                  link_tag[i].title) {
+                    link_tag[i].disabled = true;
+                    if (link_tag[i].title == css_title) {
+                        link_tag[i].disabled = false;
+                    }
+                }
             }
+            setCookie("style", css_title, 20);
+            console.log(getCookie("style"));
         }
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function setStyleFromCookie() {
+            var style = getCookie("style");
+            switch_style(style);   
+        }
+
+        function setCheckboxFromCookie() {
+            if (getCookie("style").length === 4) {
+                $("#jebanyklikacz").switchButton({
+                    checked: true
+                });
+                console.log(getCookie("style").length);
+                $("#checkbox").prop("checked", true);
+            }
+            else
+                $("#jebanyklikacz").switchButton({
+                    checked: false
+                });
+        }
+
+        $('input[name=cbSkin]').change(function () {
+            if (document.getElementById("jebanyklikacz").checked === true) {
+                switch_style('dark');
+            }
+            else {
+                switch_style('light');
+            }
+        });
+        setCheckboxFromCookie();
+
+       
     </script>
 
 </body>
