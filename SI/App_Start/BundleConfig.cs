@@ -37,7 +37,9 @@ namespace SI
 
             bundles.Add(new ScriptBundle("~/Scripts/scriptsDark").Include(
                         "~/Scripts/jquery.switchButton.js",
-                        "~/Scripts/styleswitcher.js"));
+                        "~/Scripts/styleswitcher.js",
+                        "~/Scripts/cookies.js",
+                        "~/Scripts/darkSkin.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui.js"));

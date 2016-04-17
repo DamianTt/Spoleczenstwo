@@ -10,14 +10,15 @@
 }
 
 .switch-button-label.on {
-    color: #0088CC;
+    color: #0C6718;
+    font-weight: bold;
 }
 
 .switch-button-background {
     float: left;
     position: relative;
 
-    background: #ccc;
+    background: #675C5C;
     border: 1px solid #aaa;
 
     margin: 1px 10px;
