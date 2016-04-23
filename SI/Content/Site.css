@@ -51,7 +51,8 @@ textarea {
 }
 
 .avatarSmall {
-
+    max-width: 30px !important;
+    height:auto;
 }
 
 input[type="file"] {

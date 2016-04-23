@@ -43,6 +43,6 @@ namespace SI.Models
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
         }
 
-        public System.Data.Entity.DbSet<SI.Models.User> Users { get; set; }
+        //public System.Data.Entity.DbSet<SI.Models.User> Users { get; set; }
     }
 }

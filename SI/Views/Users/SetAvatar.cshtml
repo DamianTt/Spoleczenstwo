@@ -11,7 +11,7 @@
     <dl class="dl-horizontal">
 
                 @{
-                   var ImgPath =((UsersController)this.ViewContext.Controller).GetAvatar();
+                   var ImgPath =((UsersController)ViewContext.Controller).GetAvatar();
                 }
                 <dd>
                     <img src="~/Img/Avatars/@ImgPath" class="avatar">
