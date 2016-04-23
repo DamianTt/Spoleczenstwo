@@ -9,8 +9,8 @@ namespace SI.Models
 {
     public class Post
     {
-        [Key]
-        public int Id { get; set; }
+        [Key, StringLength(7)]
+        public string Id { get; set; }
 
         [Required]
         [StringLength(140)]

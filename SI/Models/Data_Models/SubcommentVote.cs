@@ -23,6 +23,6 @@ namespace SI.Models
         [ForeignKey("SubcommentId")]
         public virtual Subcomment Subcomment { get; set; }
         [Key, Column(Order = 1)]
-        public int SubcommentId { get; set; }
+        public long SubcommentId { get; set; }
     }
 }

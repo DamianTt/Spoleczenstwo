@@ -10,36 +10,9 @@ using SI.Models;
 
 namespace SI.Controllers
 {
-    public class CommentController : Controller
+    public class CommentController : BaseController
     {
         private SIDb db = new SIDb();
-
-        // GET: Comment
-        public ActionResult Index()
-        {
-            return View(db.Comments.ToList());
-        }
-
-        // GET: Comment/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Comment comment = db.Comments.Find(id);
-            if (comment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(comment);
-        }
-
-        // GET: Comment/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Comment/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

@@ -12,18 +12,33 @@ using Microsoft.AspNet.Identity;
 
 namespace SI.Controllers
 {
-    public class PostController : Controller
+    public class PostController : BaseController
     {
         private SIDb db = new SIDb();
 
         // GET: Post
         public ActionResult Index()
         {
-            return View(db.Posts.ToList());
+            var model = db.Posts.OrderBy(p => p.Date).ToList();
+
+            return View(model);
+        }
+
+        // GET: <sectionName>
+        public ActionResult Section(string sectionName)
+        {
+            var sections = db.Sections.Where(s => s.Name == sectionName).ToList();
+
+            if (sections.Count == 0)
+                return HttpNotFound();
+
+            var posts = sections[0].Posts.OrderBy(p => p.Date).ToList();
+
+            return View("index", posts);
         }
 
         // GET: Post/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
@@ -41,7 +56,13 @@ namespace SI.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+            var newPostViewModel = new NewPostViewModel
+            {
+                AllSections = new SelectList(db.Sections.ToList(), "Id", "Name"),
+                SelectedSections = new List<int>()
+            };
+            
+            return View(newPostViewModel);
         }
 
         // POST: Post/Create
@@ -50,53 +71,71 @@ namespace SI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Title")] Post post, HttpPostedFileBase file)
+        public ActionResult Create([Bind(Include = "Title, File, NSFW, SelectedSections")] NewPostViewModel newPost)
         {
-            if (file != null)
+            if (ModelState.IsValid)
             {
-                post.ImgName = file.ContentType;
-                post.AuthorId = User.Identity.GetUserId();
-                post.Date = DateTime.Now;
-
-                ModelState.Clear();
-                if (TryValidateModel(post))
+                Post post = new Post
                 {
-                    int id = 0;
-                    try
-                    {
-                        Post lastPost = db.Posts.OrderBy(p => p.Id).AsEnumerable().Last();
-                        id = lastPost.Id + 1;
-                    }
-                    catch (InvalidOperationException) { }
+                    Title = newPost.Title,
+                    NSFW = newPost.NSFW,
+                    AuthorId = User.Identity.GetUserId(),
+                    Date = DateTime.Now,
+                    Sections = new List<Section>()
+                };
 
-                    string fileName = id.ToString() + "." + file.FileName.Split('.').Last();
-
-                    file.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + fileName);
-
-                    post.ImgName = fileName;
-                    db.Posts.Add(post);
-                    db.SaveChanges();
-
-                    return RedirectToAction("Index", "Home");
+                if (newPost.SelectedSections != null)
+                {
+                    var sections = db.Sections;
+                    foreach (var sectionId in newPost.SelectedSections)
+                        post.Sections.Add(sections.Find(sectionId));
                 }
+                    
+                byte[] buf = new byte[6];
+                Random rand = new Random();
+
+                db.Posts.Add(post);
+
+                //generate random 42-bit ID (7 base64 characters) until unique
+                do
+                {
+                    rand.NextBytes(buf);
+                    post.Id = Convert.ToBase64String(buf).Substring(0, 7);
+                    post.ImgName = post.Id + "." + newPost.File.FileName.Split('.').Last();
+                }
+                while (!db.TrySaveChanges());
+
+                newPost.File.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + post.ImgName);
+
+                return RedirectToAction("Details", new { id = post.Id });
             }
-            
-            return View(post);
+
+            newPost.AllSections = new SelectList(db.Sections.ToList(), "Id", "Name");
+            return View(newPost);
         }
 
         // GET: Post/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Post post = db.Posts.Find(id);
             if (post == null)
-            {
                 return HttpNotFound();
-            }
-            return View(post);
+
+            var editPostViewModel = new EditPostViewModel
+            {
+                Id = post.Id,
+                Title = post.Title,
+                ImgName = post.ImgName,
+                NSFW = post.NSFW,
+                AllSections = new SelectList(db.Sections.ToList(), "Id", "Name"),
+                SelectedSections = new List<int>()
+            };
+            foreach (var section in post.Sections)
+                editPostViewModel.SelectedSections.Add(section.Id);
+
+            return View(editPostViewModel);
         }
 
         // POST: Post/Edit/5
@@ -104,19 +143,32 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, Title, ImgName")] Post post)
+        public ActionResult Edit([Bind(Include = "Id, Title, NSFW, SelectedSections")] EditPostViewModel editedPost)
         {
             if (ModelState.IsValid)
             {
+                var post = db.Posts.Find(editedPost.Id);
+                post.Title = editedPost.Title;
+                post.NSFW = post.NSFW;
+
+                post.Sections.Clear();
+                var sections = db.Sections;
+
+                if (editedPost.SelectedSections != null)
+                {
+                    foreach (var sectionId in editedPost.SelectedSections)
+                        post.Sections.Add(sections.Find(sectionId));
+                }
+
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Details", new { id = post.Id });
             }
-            return View(post);
+            return View(editedPost);
         }
 
         // GET: Post/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
@@ -133,7 +185,7 @@ namespace SI.Controllers
         // POST: Post/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
             Post post = db.Posts.Find(id);
             string filePath = HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + post.ImgName;

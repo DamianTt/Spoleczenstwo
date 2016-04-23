@@ -24,8 +24,30 @@ namespace SI
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssThemeLight").Include(
+                "~/Content/bootstrap.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssThemeDark").Include(
+                "~/Content/bootstrapDark.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssDark").Include(                      
+                       "~/Content/jquery.switchButton.css"));
+
+            bundles.Add(new ScriptBundle("~/Scripts/scriptsDark").Include(
+                        "~/Scripts/jquery.switchButton.js",
+                        "~/Scripts/styleswitcher.js",
+                        "~/Scripts/cookies.js",
+                        "~/Scripts/darkSkin.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/jqueryuicss").Include(
+                        "~/Content/jquery-ui.css",
+                        "~/Content/jquery-ui.structure.css",
+                        "~/Content/jquery-ui.theme.css"));
         }
     }
 }
