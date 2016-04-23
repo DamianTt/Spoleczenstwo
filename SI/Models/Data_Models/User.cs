@@ -14,7 +14,8 @@ namespace SI.Models
         [Column("UserName")]
         public string Name { get; set; }
 
-
+        [Column("Avatar")]
+        public string AvatarName { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
 
@@ -32,4 +33,8 @@ namespace SI.Models
 
 
     }
+    //public class EditUserViewModel
+    //{
+    //    public string avatar { get; set; }
+    //}
 }

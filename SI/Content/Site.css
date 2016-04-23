@@ -43,6 +43,15 @@ textarea {
     height: auto;
 }
 
+.avatar {
+    max-width: 200px;
+    height:auto;
+}
+
+.avatarSmall {
+
+}
+
 input[type="file"] {
     padding: 6px 0px;
 }

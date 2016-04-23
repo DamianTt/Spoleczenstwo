@@ -23,5 +23,6 @@ namespace SI.Models
             modelBuilder.Entity<User>().ToTable("dbo.AspNetUsers");
         }
 
+        public System.Data.Entity.DbSet<SI.Models.User> Users { get; set; }
     }
 }

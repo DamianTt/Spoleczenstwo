@@ -1,0 +1,34 @@
+﻿@model SI.Models.User
+@using SI.Controllers
+@{
+    ViewBag.Title = "Avatar";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<div>
+    <h4>Set your account avatar</h4>
+    <dl class="dl-horizontal">
+
+                @{
+                   var ImgPath =((UsersController)this.ViewContext.Controller).GetAvatar();
+                }
+                <dd>
+                    <img src="~/Img/Avatars/@ImgPath" class="avatar">
+                </dd>
+            
+            
+    
+        @using (Html.BeginForm("SetAvatar", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <dt>Avatar:</dt>
+            <dd>
+                <input id="AvatarName" title="Upload an avatar" type="file" name="file" />
+
+                <input type="submit" value="Save" />
+
+                @Html.ValidationMessageFor(model => model.AvatarName ,"", new { @class = "text-danger" })
+            </dd>
+        }
+        </dl>
+</div>
