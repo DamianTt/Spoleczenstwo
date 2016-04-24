@@ -14,14 +14,10 @@
         
         <dt>Avatar:</dt>
         <dd>
-            [ @Html.ActionLink("Set avatar", "SetAvatar", "Users") ]
+            [ @Html.ActionLink("Set avatar", "SetAvatar", "User") ]
         </dd>
         <dd>
-            @using SI.Controllers
-            @{
-                var ImgPath = ((BaseController)this.ViewContext.Controller).GetAvatar();
-            }
-            <img src="~/Img/Avatars/@ImgPath" class="avatar">
+                <img src="~/Img/Avatars/@ViewBag.Avatar" class="avatar">
         </dd>
        
         <dt>Password:</dt>

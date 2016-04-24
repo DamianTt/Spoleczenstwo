@@ -37,10 +37,10 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            @*@foreach (var section in (List<SI.Models.Section>)(ViewData["Sections"]))
+                            @foreach (var section in (List<SI.Models.Section>)(ViewData["Sections"]))
                             {
                                 <li>@Html.RouteLink(section.Name, "Sections", new { sectionName = section.Name })</li>
-                            }*@
+                            }
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Add", "Create", "Post")</li>

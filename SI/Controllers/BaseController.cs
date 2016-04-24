@@ -15,13 +15,10 @@ namespace SI.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             filterContext.Controller.ViewData["Sections"] = db.Sections.ToList();
-        }
 
-        [HttpGet]
-        public string GetAvatar()
-        {
-            string img = db.Users.Find(User.Identity.GetUserId()).AvatarName;
-            return img;
+            if(User.Identity.IsAuthenticated)
+            ViewBag.Avatar = db.Users.Find(User.Identity.GetUserId()).AvatarName;
+            
         }
 
         protected override void Dispose(bool disposing)

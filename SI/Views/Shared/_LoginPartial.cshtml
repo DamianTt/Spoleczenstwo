@@ -1,16 +1,15 @@
 ﻿@using Microsoft.AspNet.Identity
-@using SI.Controllers
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
-    
-         var ImgPath = ((UsersController)this.ViewContext.Controller).GetAvatar();
+        
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a href='@Url.Action("Index", "Manage")' title="Manage"> Hello  @User.Identity.GetUserName()<img src='@Url.Content("~/Img/Avatars/" + @ImgPath)' class="avatarSmall" /></a>       
+            <a href='@Url.Action("Index", "Manage")' title="Manage"> Hello  @User.Identity.GetUserName() <img src='@Url.Content("~/Img/Avatars/" + @ViewBag.Avatar)' class="avatarSmall" /></a>       
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

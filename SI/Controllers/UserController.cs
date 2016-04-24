@@ -11,16 +11,12 @@ using System.Web.Mvc;
 
 namespace SI.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : BaseController
     {
         SIDb db = new SIDb();
         // GET: Users
         public ActionResult Index()
         {
-            //var id = User.Identity.GetUserId();
-            //string img = db.Users.Find(id).ToString();
-            //ViewBag.ImgPath = HttpContext.Server.MapPath("~/Img/Avatars/") + img;
-            //ViewBag.ImgPath = "av.jpg";
             return View();
         }
 
@@ -35,6 +31,7 @@ namespace SI.Controllers
         {
             var id = User.Identity.GetUserId();
 
+
             string fileName = file.FileName;
 
             if (ModelState.IsValid)
@@ -47,14 +44,7 @@ namespace SI.Controllers
             }
 
 
-            return RedirectToAction("SetAvatar", "Users");
-        }
-
-        [HttpGet]
-        public string GetAvatar()
-        {
-            string img = db.Users.Find(User.Identity.GetUserId()).AvatarName;
-            return img;
+            return RedirectToAction("Index" , "Manage");
         }
     }
 }
