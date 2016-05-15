@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<SI.Models.Post>
 
+@{
+    var allowNSFW = ViewBag.nsfw;
+}
+
 @foreach (var post in Model)
 {
     <div>
         <h2 class="title">@Html.RouteLink(post.Title, "Beng", new { id = post.Id })</h2>
 
         <a href="/beng/@post.Id">
-            @Helper.PostImg(post.ImgName, post.NSFW)
+           
+            @Helper.PostImg(post.ImgName, post.NSFW && !allowNSFW)
         </a>
         <hr />
     </div>

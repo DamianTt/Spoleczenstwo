@@ -11,6 +11,7 @@ namespace SI.Models
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
+        public bool AllowNSFW { get; set; }
         public bool BrowserRemembered { get; set; }
     }
 

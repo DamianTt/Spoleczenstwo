@@ -14,7 +14,7 @@ namespace SI.Models
         [Column("UserName")]
         public string Name { get; set; }
 
-
+        public bool AllowNSFW { get; set; }
 
         public virtual ICollection<Post> Posts { get; set; }
 
