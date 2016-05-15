@@ -6,7 +6,7 @@
         <h2 class="title">@Html.RouteLink(post.Title, "Beng", new { id = post.Id })</h2>
 
         <a href="/beng/@post.Id">
-            @Helper.PostImg(post.ImgName)
+            @Helper.PostImg(post.ImgName, post.NSFW)
         </a>
         <hr />
     </div>

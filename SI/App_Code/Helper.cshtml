@@ -1,12 +1,29 @@
-﻿@helper PostImg(string imgName) {
-    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)"  
+﻿@helper PostImg(string imgName, bool nsfw) {
+    if (!nsfw)
+    {
+        <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)"  
          onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
-         class="postImg" />
+             class="postImg" />
+    }
+    else
+    {
+        <img src="@System.Configuration.ConfigurationManager.AppSettings["NSFW"]"
+             onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'"
+             class="postImg" />
+    }
 }
 
-@helper PostImgSmall(string imgName)
-{
-    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)" 
-         onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
-         class="postImgSmall" />
+@helper PostImgSmall(string imgName, bool nsfw) { 
+    if (!nsfw)
+    {
+        <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)"
+             onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'"
+             class="postImgSmall" />
+    }
+    else
+    {
+        <img src="@System.Configuration.ConfigurationManager.AppSettings["NSFW"]"
+             onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'"
+             class="postImgSmall" />
+    }
 }
