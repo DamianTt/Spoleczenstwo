@@ -23,7 +23,7 @@ namespace SI.Models
         public DateTime Date { get; set; }
 
         public bool NSFW { get; set; }
-
+        public int Score { get; set; }
 
 
         [ForeignKey("AuthorId")]

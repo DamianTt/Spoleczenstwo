@@ -20,10 +20,23 @@ namespace SI.Controllers
         public ActionResult Index()
         {
             var model = db.Posts.OrderByDescending(p => p.Date).ToList();
-           
 
             return View(model);
         }
+
+        public ActionResult Vote(string id, string submit)
+        {
+            Post post = db.Posts.Find(id);
+            if (submit == "UpVote")
+                post.Score++;
+            else
+                post.Score--;
+            db.Entry(post).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Post");
+        }
+
 
         // GET: <sectionName>
         public ActionResult Section(string sectionName)
@@ -78,6 +91,7 @@ namespace SI.Controllers
             {
                 Post post = new Post
                 {
+                    Score = 0,
                     Title = newPost.Title,
                     NSFW = newPost.NSFW,
                     AuthorId = User.Identity.GetUserId(),

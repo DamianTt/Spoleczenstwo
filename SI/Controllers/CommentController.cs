@@ -30,7 +30,7 @@ namespace SI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Post", new { id = comment.PostId });
             }
-
+            
             return View(comment);
         }
 

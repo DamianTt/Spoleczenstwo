@@ -1,0 +1,15 @@
+﻿@model SI.Models.Post
+
+<div id="jd">
+    @using (Html.BeginForm("Vote", "Post"))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Model.Score
+        <button type="submit" name="submit" value="UpVote" class="button" style="width: 10%;">
+            <img src="@System.Configuration.ConfigurationManager.AppSettings["UpVote"]" />
+        </button>
+        <button type="submit" name="submit" value="DownVote" class="button" style="width: 10%;">
+            <img src="@System.Configuration.ConfigurationManager.AppSettings["DownVote"]" />
+        </button>
+    }
+</div>
