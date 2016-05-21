@@ -21,6 +21,8 @@ namespace SI.Controllers
                 ViewBag.nsfw = user.AllowNSFW;
             else
                 ViewBag.nsfw = false;
+
+            //ViewBag.user = user;
         }
 
         protected override void Dispose(bool disposing)
