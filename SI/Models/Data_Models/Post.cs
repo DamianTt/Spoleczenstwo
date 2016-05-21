@@ -33,9 +33,7 @@ namespace SI.Models
 
 
         public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual ICollection<PostVote> Votes { get; set; }
-
         public virtual ICollection<Section> Sections { get; set; }
     }
 }

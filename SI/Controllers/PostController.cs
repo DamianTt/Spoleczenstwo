@@ -24,16 +24,70 @@ namespace SI.Controllers
             return View(model);
         }
 
+
+        [Authorize]
         public ActionResult Vote(string id, string submit)
         {
-            Post post = db.Posts.Find(id);
-            if (submit == "UpVote")
-                post.Score++;
-            else
-                post.Score--;
-            db.Entry(post).State = EntityState.Modified;
-            db.SaveChanges();
+            var post = db.Posts.Find(id);
+            var user = db.Users.Find(User.Identity.GetUserId());
 
+            PostVote theVote = db.PostVotes.Find(user.Id, post.Id);
+
+            if (theVote == null)
+            {
+                PostVote newVote = new PostVote();
+
+                newVote.PostId = post.Id;
+                newVote.Date = DateTime.Now;
+                newVote.UserId = user.Id;
+                newVote.IsUpvote = (submit == "UpVote");
+
+                if (submit == "UpVote")
+                    post.Score++;
+                else
+                    post.Score--;
+
+                db.Entry(post).State = EntityState.Modified;
+                db.PostVotes.Add(newVote);
+                db.SaveChanges();
+            }
+            else
+            {
+                if(submit == "UpVote")
+                {
+                    if (theVote.IsUpvote)
+                    {
+                        return RedirectToAction("Index", "Post");
+                    }
+                    else
+                    {
+                        theVote.IsUpvote = true;
+                        post.Score += 2;
+
+                        db.Entry(theVote).State = EntityState.Modified;
+                        db.Entry(post).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if (!theVote.IsUpvote)
+                    {
+                        return RedirectToAction("Index", "Post");
+                    }
+                    else
+                    {
+                        theVote.IsUpvote = false;
+                        post.Score -= 2;
+
+                        db.Entry(theVote).State = EntityState.Modified;
+                        db.Entry(post).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                
+            }
+            
             return RedirectToAction("Index", "Post");
         }
 
