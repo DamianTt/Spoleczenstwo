@@ -21,6 +21,12 @@ namespace SI.Controllers
                 ViewBag.nsfw = user.AllowNSFW;
             else
                 ViewBag.nsfw = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Avatar = db.Users.Find(User.Identity.GetUserId()).AvatarName;
+                if (ViewBag.Avatar == null) ViewBag.Avatar = "default.jpg";
+            }
         }
 
         protected override void Dispose(bool disposing)

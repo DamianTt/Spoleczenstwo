@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SI.Models;
+using Microsoft.AspNet.Identity;
 
 namespace SI.Controllers
 {
@@ -22,16 +23,20 @@ namespace SI.Controllers
         public ActionResult Create([Bind(Include = "Body,PostId")] Comment comment)
         {
             comment.Date = DateTime.Now;
-
-            ModelState.Clear();
-            if (TryValidateModel(comment))
+            if (User.Identity.IsAuthenticated)
             {
-                db.Comments.Add(comment);
-                db.SaveChanges();
-                return RedirectToAction("Details", "Post", new { id = comment.PostId });
-            }
+                comment.AuthorId = User.Identity.GetUserId();
+                ModelState.Clear();
+                if (TryValidateModel(comment))
+                {
 
-            return View(comment);
+                    db.Comments.Add(comment);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", "Post", new { id = comment.PostId });
+                }
+                return View(comment);
+            }
+            else return Content("You need to register to comment posts");
         }
 
         // GET: Comment/Edit/5

@@ -10,6 +10,15 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>Avatar:</dt>
+        <dd>
+            [ @Html.ActionLink("Set avatar", "SetAvatar", "User") ]
+        </dd>
+        <dd>
+            <img src="~/Img/Avatars/@ViewBag.Avatar" class="avatar">
+        </dd>
+
         <dt>Password:</dt>
         <dd>
             [
@@ -23,12 +32,14 @@
             }
             ]
         </dd>
+        <dt>Allow NSFW:</dt>
+
         @*<dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>*@
-        <dt>Allow NSFW:</dt>
+        
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -91,6 +102,5 @@
                         </text>
                     }
                 }*@
-        </dd>
-    </dl>
+  
 </div>

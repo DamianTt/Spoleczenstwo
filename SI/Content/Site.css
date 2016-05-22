@@ -25,9 +25,28 @@ textarea {
     max-width: 280px;
 }
 
-.comment {
+/*.comment {
     margin: 20px 10px;
+}*/
+
+.commentsection {
+    margin: 20px 10px;
+    height: auto;
 }
+
+.commentsection user {
+    position: relative;
+    bottom: 15px;
+    font-size: 18px;
+}
+
+.commentsection comment{
+    position: relative;
+    top: 10px;
+    right: 40px;
+    font-size: 15px;
+}
+
 
 .title a {
     color: black;
@@ -44,6 +63,22 @@ textarea {
     max-width: 300px;
     height: auto;
 }
+
+.avatar {
+    max-width: 200px;
+    height:auto;
+}
+
+.avatarSmall {
+    max-width: 30px !important;
+    height:auto;
+}
+
+.avatarMedium {
+    max-width: 60px !important;
+    height: 60px !important;
+}
+
 
 input[type="file"] {
     padding: 4px 0px;

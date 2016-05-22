@@ -21,5 +21,9 @@
 
 @foreach (var com in Model.Comments)
 {
-    <div class="comment">@com.Body</div>
+    <div class="commentsection">
+        <img src='@Url.Content("~/Img/Avatars/" + com.Author.AvatarName)' class="avatarMedium" />
+        <user>@com.Author.Name</user>
+        <comment>@com.Body</comment>
+    </div> 
 }
