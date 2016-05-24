@@ -6,7 +6,7 @@
 
 <div>
     <h2>@Html.DisplayFor(model => model.Title)</h2>
-    @Helper.PostImg(Model.ImgName, Model.NSFW)
+    @Helper.PostImg(Model.ImgName, false)
     <div>
         @Html.ActionLink("Edit", "Edit", "Post", new { id = Model.Id }, null) |
         @Html.ActionLink("Delete", "Delete", "Post", new { id = Model.Id }, null) |
