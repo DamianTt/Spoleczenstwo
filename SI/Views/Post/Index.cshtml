@@ -12,6 +12,8 @@
         <a href="/beng/@post.Id">
             @Helper.PostImg(post.ImgName, post.NSFW && !allowNSFW)
         </a>
-        @Html.Partial("_Score", post)
-    </div>
+        <div class="Score" id="@post.Id">
+            @Html.Partial("_Score", post)
+        </div>
+        </div>
 }
