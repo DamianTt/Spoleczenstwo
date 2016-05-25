@@ -301,6 +301,7 @@
             this.button.animate({ left: newLeft }, 250, "easeInOutCubic");
         }
 
+
     });
 
 })(jQuery);

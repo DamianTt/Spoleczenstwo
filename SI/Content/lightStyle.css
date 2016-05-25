@@ -1,0 +1,7 @@
+﻿body.light {
+    background: white;
+}
+
+.dark .title a {
+    color: black;
+}

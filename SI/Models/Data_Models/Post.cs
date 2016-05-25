@@ -21,7 +21,7 @@ namespace SI.Models
         public string ImgName { get; set; }
 
         public DateTime Date { get; set; }
-
+        public int Score { get; set; }
         public bool NSFW { get; set; }
 
 
