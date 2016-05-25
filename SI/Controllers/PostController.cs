@@ -20,7 +20,6 @@ namespace SI.Controllers
         public ActionResult Index()
         {
             var model = db.Posts.OrderByDescending(p => p.Date).ToList();
-
             return View(model);
         }
 
@@ -30,6 +29,7 @@ namespace SI.Controllers
         {
             var post = db.Posts.Find(id);
             var user = db.Users.Find(User.Identity.GetUserId());
+            var model = db.Posts.OrderByDescending(p => p.Date).ToList();
 
             PostVote theVote = db.PostVotes.Find(user.Id, post.Id);
 
@@ -57,7 +57,7 @@ namespace SI.Controllers
                 {
                     if (theVote.IsUpvote)
                     {
-                        return RedirectToAction("Index", "Post");
+                        return PartialView("_Score", post);
                     }
                     else
                     {
@@ -73,7 +73,7 @@ namespace SI.Controllers
                 {
                     if (!theVote.IsUpvote)
                     {
-                        return RedirectToAction("Index", "Post");
+                        return PartialView("_Score", post);
                     }
                     else
                     {
@@ -87,8 +87,8 @@ namespace SI.Controllers
                 }
                 
             }
-            
-            return RedirectToAction("Index", "Post");
+
+            return PartialView("_Score", post);
         }
 
 
