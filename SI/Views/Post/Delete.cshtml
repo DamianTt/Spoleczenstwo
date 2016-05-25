@@ -6,13 +6,13 @@
 <div>
     <hr />
     <h4>@Model.Title</h4>
-    @Helper.PostImgSmall(Model)
+    @Helper.PostImgSmall(Model.ImgName)
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Cancel", "Index", "Home")
+            @Html.RouteLink("Cancel", "Beng", new { id = Model.Id })
         </div>
     }
 </div>

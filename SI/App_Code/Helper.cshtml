@@ -1,14 +1,12 @@
-﻿@helper PostImg(SI.Models.Post post) {
-    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + post.ImgName)" 
-         alt="@post.Title" 
+﻿@helper PostImg(string imgName) {
+    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)"  
          onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
          class="postImg" />
 }
 
-@helper PostImgSmall(SI.Models.Post post)
+@helper PostImgSmall(string imgName)
 {
-    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + post.ImgName)" 
-         alt="@post.Title" 
+    <img src="@(System.Configuration.ConfigurationManager.AppSettings["postImgsPath"] + imgName)" 
          onerror="this.src='@System.Configuration.ConfigurationManager.AppSettings["img404Path"]'" 
          class="postImgSmall" />
 }

@@ -3250,7 +3250,8 @@ input[type="button"].btn-block {
   margin: 2px 0 0;
   font-size: 14px;
   list-style: none;
-  background-color: #ffffff;
+  background-color: #080808;
+  color:#999999;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -3273,11 +3274,11 @@ input[type="button"].btn-block {
 
 .dropdown-menu > li > a {
   display: block;
-  padding: 3px 20px;
+  padding: 15px 20px;
   clear: both;
   font-weight: normal;
   line-height: 1.428571429;
-  color: #333333;
+  color: #999999;
   white-space: nowrap;
 }
 
@@ -4260,7 +4261,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     float: none;
     width: auto;
     margin-top: 0;
-    background-color: transparent;
+    /*background-color: transparent;*/
     border: 0;
     box-shadow: none;
   }
@@ -6819,8 +6820,5 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
-}
-.container.body-content > div {
-    color: white;
 }
 

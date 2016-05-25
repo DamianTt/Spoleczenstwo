@@ -1,0 +1,9 @@
+﻿body.dark {
+    background: #1C1C1C;
+    color: #CACECF;
+    border-color: #444;
+}
+
+.dark .title a {
+    color: #CACECF;
+}

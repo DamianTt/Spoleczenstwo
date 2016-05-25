@@ -9,15 +9,15 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/bundles/jqueryuicss")
-    @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" title=""dark"" />", "~/Content/cssThemeDark")
     @Styles.RenderFormat(@"<link href=""{0}"" rel=""stylesheet"" title=""light"" />", "~/Content/cssThemeLight")
     @Styles.Render("~/Content/cssDark")
     @Styles.Render("~/Content/css")
+    <link href="/Content/DarkStyle.css" rel="stylesheet" />
 
 
 </head>
 
-<body>
+<body class="@ViewBag.Style">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,13 +26,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("BengBeng", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("BengBeng", "Index", "Post", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Sections
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            @foreach (var section in (List<SI.Models.Section>)(ViewData["Sections"]))
+                            {
+                                <li>@Html.RouteLink(section.Name, "Sections", new { sectionName = section.Name })</li>
+                            }
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Add", "Create", "Post")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -44,9 +54,9 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Dziki zgon programmers </p>
-                <div class="slider demo" id="slider-2">
-                    <input type="checkbox" id="jebanyklikacz" name="cbSkin" value="" onclick='handleCbChange(this);' />
-                </div>
+            <div class="slider demo" id="slider-2">
+                <input type="checkbox" id="jebanyklikacz" name="cbSkin" value="" onclick='handleCbChange(this);' />
+            </div>
 
         </footer>
     </div>
@@ -54,7 +64,19 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/Scripts/scriptsDark")
+    @Scripts.Render("~/Scripts/switchButton")
+   
     @RenderSection("scripts", required: false)
+    <script>
+        $('input[name=cbSkin]').change(function () {
+            if (document.getElementById("jebanyklikacz").checked === true) {
+                $('body').toggleClass('dark');
+            }
+            else {
+                $('body').toggleClass('dark');
+            }
+        });
+    </script>
+
 </body>
 </html>

@@ -30,10 +30,7 @@ textarea {
 }
 
 .title a {
-    color: aliceblue;
-}
-.dark title {
-    color: white;
+    color: black;
 }
 
 .postImg {
@@ -50,4 +47,8 @@ textarea {
 
 input[type="file"] {
     padding: 4px 0px;
+}
+
+.form-checkbox {
+    padding-top: 6px;
 }
