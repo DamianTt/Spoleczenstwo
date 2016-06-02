@@ -40,6 +40,7 @@ namespace SI.Controllers
         }
         public ActionResult uptadeTheme()
         {
+
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
@@ -48,11 +49,9 @@ namespace SI.Controllers
                     user.ThemeDark = false;
                 else
                     user.ThemeDark = true;
-            }
-            else
-            {
 
-            }    
+                db.SaveChanges();
+            }
             return null;
             
         }
