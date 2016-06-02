@@ -44,7 +44,10 @@ namespace SI.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
-                user.ThemeDark = true;
+                if (user.ThemeDark)
+                    user.ThemeDark = false;
+                else
+                    user.ThemeDark = true;
             }
             else
             {

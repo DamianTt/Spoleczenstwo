@@ -70,6 +70,9 @@
     <script>
         $('input[name=cbSkin]').change(function () {
             if (document.getElementById("jebanyklikacz").checked === true) {
+                $.ajax({
+                    url: '@Url.Action("uptadeTheme")'
+                });
                 $('body').toggleClass('dark');
             }
             else {
