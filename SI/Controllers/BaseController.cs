@@ -40,16 +40,18 @@ namespace SI.Controllers
         }
         public ActionResult uptadeTheme()
         {
+
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(userId);
-                user.ThemeDark = true;
-            }
-            else
-            {
+                if (user.ThemeDark)
+                    user.ThemeDark = false;
+                else
+                    user.ThemeDark = true;
 
-            }    
+                db.SaveChanges();
+            }
             return null;
             
         }
