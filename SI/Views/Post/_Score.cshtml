@@ -1,0 +1,23 @@
+﻿@model SI.Models.Post
+
+@using (Ajax.BeginForm(
+            "Vote",
+            "Post",
+             new AjaxOptions
+             {
+                 HttpMethod = "get",
+                 InsertionMode = InsertionMode.Replace,
+                 UpdateTargetId = Model.Id,
+
+             }))
+{
+            @Html.HiddenFor(model => model.Id)
+            @Html.ValueFor(model => model.Score)
+
+        <button type="submit" name="submit" value="UpVote" class="button" style="width: 10%;">
+            <img src="@System.Configuration.ConfigurationManager.AppSettings["UpVote"]" />
+        </button>
+        <button type="submit" name="submit" value="DownVote" class="button" style="width: 10%;">
+            <img src="@System.Configuration.ConfigurationManager.AppSettings["DownVote"]" />
+        </button>
+}

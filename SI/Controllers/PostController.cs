@@ -20,10 +20,77 @@ namespace SI.Controllers
         public ActionResult Index()
         {
             var model = db.Posts.OrderByDescending(p => p.Date).ToList();
-           
-
             return View(model);
         }
+
+
+        [Authorize]
+        public ActionResult Vote(string id, string submit)
+        {
+            var post = db.Posts.Find(id);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var model = db.Posts.OrderByDescending(p => p.Date).ToList();
+
+            PostVote theVote = db.PostVotes.Find(user.Id, post.Id);
+
+            if (theVote == null)
+            {
+                PostVote newVote = new PostVote();
+
+                newVote.PostId = post.Id;
+                newVote.Date = DateTime.Now;
+                newVote.UserId = user.Id;
+                newVote.IsUpvote = (submit == "UpVote");
+
+                if (submit == "UpVote")
+                    post.Score++;
+                else
+                    post.Score--;
+
+                db.Entry(post).State = EntityState.Modified;
+                db.PostVotes.Add(newVote);
+                db.SaveChanges();
+            }
+            else
+            {
+                if(submit == "UpVote")
+                {
+                    if (theVote.IsUpvote)
+                    {
+                        return PartialView("_Score", post);
+                    }
+                    else
+                    {
+                        theVote.IsUpvote = true;
+                        post.Score += 2;
+
+                        db.Entry(theVote).State = EntityState.Modified;
+                        db.Entry(post).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if (!theVote.IsUpvote)
+                    {
+                        return PartialView("_Score", post);
+                    }
+                    else
+                    {
+                        theVote.IsUpvote = false;
+                        post.Score -= 2;
+
+                        db.Entry(theVote).State = EntityState.Modified;
+                        db.Entry(post).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                
+            }
+
+            return PartialView("_Score", post);
+        }
+
 
         // GET: <sectionName>
         public ActionResult Section(string sectionName)
@@ -78,6 +145,7 @@ namespace SI.Controllers
             {
                 Post post = new Post
                 {
+                    Score = 0,
                     Title = newPost.Title,
                     NSFW = newPost.NSFW,
                     AuthorId = User.Identity.GetUserId(),

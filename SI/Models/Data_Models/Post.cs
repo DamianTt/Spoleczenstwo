@@ -23,7 +23,7 @@ namespace SI.Models
         public DateTime Date { get; set; }
         public int Score { get; set; }
         public bool NSFW { get; set; }
-
+        public int Score { get; set; }
 
 
         [ForeignKey("AuthorId")]
@@ -33,9 +33,7 @@ namespace SI.Models
 
 
         public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual ICollection<PostVote> Votes { get; set; }
-
         public virtual ICollection<Section> Sections { get; set; }
     }
 }

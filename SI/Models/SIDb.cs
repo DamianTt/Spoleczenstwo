@@ -15,6 +15,7 @@ namespace SI.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Section> Sections { get; set; }
 
+        public DbSet<PostVote> PostVotes { get; set; }
 
 
         public SIDb() : base("name=DefaultConnection") { }

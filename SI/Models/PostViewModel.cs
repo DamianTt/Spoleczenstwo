@@ -24,6 +24,7 @@ namespace SI.Models
 
         [Display(Name = "Tags")]
         public ICollection<int> SelectedSections { get; set; }
+      
     }
 
     public class EditPostViewModel

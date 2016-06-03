@@ -26,16 +26,16 @@ namespace SI.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 comment.AuthorId = User.Identity.GetUserId();
-                ModelState.Clear();
-                if (TryValidateModel(comment))
-                {
+            ModelState.Clear();
+            if (TryValidateModel(comment))
+            {
 
-                    db.Comments.Add(comment);
-                    db.SaveChanges();
-                    return RedirectToAction("Details", "Post", new { id = comment.PostId });
-                }
-                return View(comment);
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return RedirectToAction("Details", "Post", new { id = comment.PostId });
             }
+            return View(comment);
+        }
             else return Content("You need to register to comment posts");
         }
 
