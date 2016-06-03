@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+
 
 namespace SI.Controllers
 {
@@ -15,6 +17,17 @@ namespace SI.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             filterContext.Controller.ViewData["Sections"] = db.Sections.ToList();
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (user != null)
+                ViewBag.nsfw = user.AllowNSFW;
+            else
+                ViewBag.nsfw = false;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Avatar = db.Users.Find(User.Identity.GetUserId()).AvatarName;
+                if (ViewBag.Avatar == null) ViewBag.Avatar = "default.jpg";
+            }
 
             // theme
             if (User.Identity.IsAuthenticated)
@@ -26,8 +39,8 @@ namespace SI.Controllers
                     ViewBag.Style = "dark";
                 else
                     ViewBag.Style = "";
-            }
-            
+        }
+
         }
 
         protected override void Dispose(bool disposing)

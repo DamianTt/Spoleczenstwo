@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SI.Models;
+using System.Data.Entity;
 
 namespace SI.Controllers
 {
@@ -15,6 +16,7 @@ namespace SI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private SIDb db = new SIDb();
 
         public ManageController()
         {
@@ -54,6 +56,7 @@ namespace SI.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            var user = db.Users.Find(User.Identity.GetUserId());
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -67,12 +70,36 @@ namespace SI.Controllers
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
+                AllowNSFW = user.AllowNSFW,
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index([Bind(Include = "AllowNSFW")] IndexViewModel Viewmodel)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var userID = User.Identity.GetUserId();
+
+            user.AllowNSFW = Viewmodel.AllowNSFW;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+            var model = new IndexViewModel
+            {
+                HasPassword = HasPassword(),
+                AllowNSFW = user.AllowNSFW,
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(userID),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userID),
+                Logins = await UserManager.GetLoginsAsync(userID),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userID)
+            };
+            return View(model);
+            
         }
 
         //
@@ -360,6 +387,7 @@ namespace SI.Controllers
             }
             return false;
         }
+
 
         private bool HasPhoneNumber()
         {

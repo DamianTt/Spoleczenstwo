@@ -10,16 +10,17 @@ using SI.Models;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
 
+
 namespace SI.Controllers
 {
     public class PostController : BaseController
     {
         private SIDb db = new SIDb();
 
-        // GET: Post
         public ActionResult Index()
         {
-            var model = db.Posts.OrderBy(p => p.Date).ToList();
+            var model = db.Posts.OrderByDescending(p => p.Date).ToList();
+           
 
             return View(model);
         }
@@ -61,7 +62,7 @@ namespace SI.Controllers
                 AllSections = new SelectList(db.Sections.ToList(), "Id", "Name"),
                 SelectedSections = new List<int>()
             };
-            
+
             return View(newPostViewModel);
         }
 
@@ -107,11 +108,13 @@ namespace SI.Controllers
 
                 newPost.File.SaveAs(HttpContext.Server.MapPath(ConfigurationManager.AppSettings["postImgsPath"]) + post.ImgName);
 
-                return RedirectToAction("Details", new { id = post.Id });
+                //return RedirectToAction("Details", new { id = post.Id });
+                return RedirectToAction("Index", "Home");
             }
 
             newPost.AllSections = new SelectList(db.Sections.ToList(), "Id", "Name");
             return View(newPost);
+            
         }
 
         // GET: Post/Edit/5
@@ -181,6 +184,8 @@ namespace SI.Controllers
             }
             return View(post);
         }
+
+
 
         // POST: Post/Delete/5
         [HttpPost, ActionName("Delete")]
