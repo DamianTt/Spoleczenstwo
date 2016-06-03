@@ -69,7 +69,7 @@
     @RenderSection("scripts", required: false)
     <script>
 
-        
+
        (function setCheckbox() {
            if ( $('body').hasClass('dark') ) {
                $("#jebanyklikacz").switchButton({
@@ -81,7 +81,7 @@
                    checked: false
                });
        })();
-       
+
 
         $('input[name=cbSkin]').change(function () {
             if (document.getElementById("jebanyklikacz").checked === true) {
@@ -91,11 +91,14 @@
                 $('body').toggleClass('dark');
             }
             else {
+                $.ajax({
+                    url: '@Url.Action("uptadeTheme")'
+                });
                 $('body').toggleClass('dark');
             }
         });
 
-        
+
     </script>
 
 </body>
