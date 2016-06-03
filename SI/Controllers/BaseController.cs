@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 
 
 namespace SI.Controllers
@@ -33,7 +32,7 @@ namespace SI.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.Identity.GetUserId();
-                var user = db.Users.Find(userId);
+                //var user = db.Users.Find(userId);
 
                 if (user.ThemeDark)
                     ViewBag.Style = "dark";
