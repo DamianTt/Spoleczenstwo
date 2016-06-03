@@ -95,12 +95,24 @@ namespace SI.Controllers
         // GET: <sectionName>
         public ActionResult Section(string sectionName)
         {
-            var sections = db.Sections.Where(s => s.Name == sectionName).ToList();
-
-            if (sections.Count == 0)
+            Section section;
+            try
+            {
+                section = db.Sections.Single(s => s.Name == sectionName);
+            }
+            catch (Exception)
+            {
                 return HttpNotFound();
+            }
 
-            var posts = sections[0].Posts.OrderBy(p => p.Date).ToList();
+            var posts = section.Posts.OrderByDescending(p => p.Date).ToList();
+
+            if (posts.Count() < 1)
+            {
+                db.Sections.Remove(section);
+                db.SaveChanges();
+                return HttpNotFound();
+            }
 
             return View("index", posts);
         }
@@ -124,12 +136,7 @@ namespace SI.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            var newPostViewModel = new NewPostViewModel
-            {
-                AllSections = new SelectList(db.Sections.ToList(), "Id", "Name"),
-                SelectedSections = new List<int>()
-            };
-
+            var newPostViewModel = new NewPostViewModel();
             return View(newPostViewModel);
         }
 
@@ -139,7 +146,7 @@ namespace SI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create([Bind(Include = "Title, File, NSFW, SelectedSections")] NewPostViewModel newPost)
+        public ActionResult Create([Bind(Include = "Title, File, NSFW, Tags")] NewPostViewModel newPost)
         {
             if (ModelState.IsValid)
             {
@@ -153,13 +160,25 @@ namespace SI.Controllers
                     Sections = new List<Section>()
                 };
 
-                if (newPost.SelectedSections != null)
+                var tags = newPost.Tags.Split(',');
+
+                var sections = db.Sections;
+                foreach (string t in tags)
                 {
-                    var sections = db.Sections;
-                    foreach (var sectionId in newPost.SelectedSections)
-                        post.Sections.Add(sections.Find(sectionId));
+                    var tag = FirstToUpper(t.Trim());
+                    Section section;
+                    try
+                    {
+                        section = db.Sections.Single(s => s.Name == tag);
+                    }
+                    catch (Exception)
+                    {
+                        section = new Section { Name = tag };
+                        db.Sections.Add(section);
+                    }
+                    post.Sections.Add(section);
                 }
-                    
+
                 byte[] buf = new byte[6];
                 Random rand = new Random();
 
@@ -180,9 +199,8 @@ namespace SI.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            newPost.AllSections = new SelectList(db.Sections.ToList(), "Id", "Name");
             return View(newPost);
-            
+
         }
 
         // GET: Post/Edit/5
@@ -200,11 +218,8 @@ namespace SI.Controllers
                 Title = post.Title,
                 ImgName = post.ImgName,
                 NSFW = post.NSFW,
-                AllSections = new SelectList(db.Sections.ToList(), "Id", "Name"),
-                SelectedSections = new List<int>()
+                Tags = String.Join(", ", post.Sections.Select(s => s.Name))
             };
-            foreach (var section in post.Sections)
-                editPostViewModel.SelectedSections.Add(section.Id);
 
             return View(editPostViewModel);
         }
@@ -214,7 +229,7 @@ namespace SI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, Title, NSFW, SelectedSections")] EditPostViewModel editedPost)
+        public ActionResult Edit([Bind(Include = "Id, Title, NSFW, Tags")] EditPostViewModel editedPost)
         {
             if (ModelState.IsValid)
             {
@@ -222,13 +237,23 @@ namespace SI.Controllers
                 post.Title = editedPost.Title;
                 post.NSFW = post.NSFW;
 
+                var tags = editedPost.Tags.Split(',');
                 post.Sections.Clear();
                 var sections = db.Sections;
-
-                if (editedPost.SelectedSections != null)
+                foreach (string t in tags)
                 {
-                    foreach (var sectionId in editedPost.SelectedSections)
-                        post.Sections.Add(sections.Find(sectionId));
+                    var tag = FirstToUpper(t.Trim());
+                    Section section;
+                    try
+                    {
+                        section = db.Sections.Single(s => s.Name == tag);
+                    }
+                    catch (Exception)
+                    {
+                        section = new Section { Name = tag };
+                        db.Sections.Add(section);
+                    }
+                    post.Sections.Add(section);
                 }
 
                 db.Entry(post).State = EntityState.Modified;
@@ -275,6 +300,20 @@ namespace SI.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+
+
+        
+        public static string FirstToUpper(string str)
+        {
+            if (str == null)
+                return null;
+
+            if (str.Length > 1)
+                return char.ToUpper(str[0]) + str.Substring(1);
+
+            return str.ToUpper();
         }
     }
 }

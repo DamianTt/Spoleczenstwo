@@ -18,13 +18,7 @@ namespace SI.Models
 
         public bool NSFW { get; set; }
 
-
-
-        public SelectList AllSections { get; set; }
-
-        [Display(Name = "Tags")]
-        public ICollection<int> SelectedSections { get; set; }
-      
+        public string Tags { get; set; }
     }
 
     public class EditPostViewModel
@@ -39,11 +33,7 @@ namespace SI.Models
 
         public bool NSFW { get; set; }
 
+        public string Tags { get; set; }
 
-
-        public SelectList AllSections { get; set; }
-
-        [Display(Name = "Tags")]
-        public ICollection<int> SelectedSections { get; set; }
     }
 }
