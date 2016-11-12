@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using SpoleczenstwoInformacyjne.Models;
+using AI.Models;
 
-namespace SpoleczenstwoInformacyjne
+namespace AI
 {
     public partial class Startup
     {

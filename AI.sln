@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoleczenstwoInformacyjne", "SpoleczenstwoInformacyjne\SpoleczenstwoInformacyjne.csproj", "{BC5A2013-BB8D-45AC-B477-751C3E93170B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI", "SpoleczenstwoInformacyjne\AI.csproj", "{BC5A2013-BB8D-45AC-B477-751C3E93170B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

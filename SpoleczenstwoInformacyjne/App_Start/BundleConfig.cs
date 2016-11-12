@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace SpoleczenstwoInformacyjne
+namespace AI
 {
     public class BundleConfig
     {
